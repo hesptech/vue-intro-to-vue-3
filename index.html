@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue Mastery</title>
+    <!-- Import Styles -->
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <!-- Import Vue.js -->
+    <script src="https://unpkg.com/vue@3.0.11/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="nav-bar"></div>
+
+      <div class="cart">Cart(){{ cart }}</div>
+      
+      <div class="product-display">
+        <div class="product-container">
+          <div class="product-image">
+            <a v-bind:href="url" class="">
+              <img v-bind:src="image">
+            </a>
+          </div>
+          <div class="product-info">
+            
+            <!-- BINDING attribute -->
+            <h1>{{ product }}</h1>
+            
+            <!-- CONDITIONAL rendering -->
+            <p v-if="inStock">
+              In Stock: 
+              <span v-if="inventory > 10">{{ inventory }} left!</span>
+              <span v-else="inventory <= 10">{{ inventory }} only left</span>
+            </p>
+            <p v-else>Out of Stock</p>
+            
+            <!-- LIST rendering -->
+            <div class="">
+              <ul>
+                <li v-for="detail in details">{{ detail }}</li>
+              </ul>
+            </div>
+            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)">
+              {{ variant.color }}
+            </div>
+
+            <!-- EVENT Handling -->
+            <button class="button" @click="addToCart">Add to cart</button>
+            <!-- SHORTHAND: v-on:click="addToCart" -->
+            <button class="button" @click="substarctFromCart" style="margin-left: 5px">- from cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Import App -->
+    <script src="./main.js"></script>
+
+    <!-- Mount App -->
+    <script>
+      const mountedApp = app.mount('#app')
+    </script>
+  </body>
+</html>
