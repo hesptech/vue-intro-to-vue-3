@@ -17,35 +17,72 @@
       <div class="product-display">
         <div class="product-container">
           <div class="product-image">
+            
+            <!-- image -->
+            <!-- CLASS Binding , IMAGE Binding-->
             <a v-bind:href="url" class="">
-              <img v-bind:src="image">
+              <img 
+                v-bind:src="image" 
+                :class="{ 'out-of-stock-img': !inStock }">
             </a>
           </div>
           <div class="product-info">
             
-            <!-- BINDING attribute -->
-            <h1>{{ product }}</h1>
+            <!-- BINDING Attribute -->
+            <h1>{{ title }}</h1>
+            <h5>{{ brand + ' ' + product }}</h5>
             
-            <!-- CONDITIONAL rendering -->
+            
+            <!-- description stock -->
+            <!-- CONDITIONAL Rendering -->
             <p v-if="inStock">
               In Stock: 
               <span v-if="inventory > 10">{{ inventory }} left!</span>
               <span v-else="inventory <= 10">{{ inventory }} only left</span>
             </p>
             <p v-else>Out of Stock</p>
+            <p v-if="onSaleBadge">{{brand }} are on sale</p>
             
-            <!-- LIST rendering -->
+
+            <!-- description details -->
+            <!-- LIST Rendering -->
             <div class="">
               <ul>
                 <li v-for="detail in details">{{ detail }}</li>
               </ul>
             </div>
-            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)">
-              {{ variant.color }}
+
+
+            <!-- EVENT Binding -->
+            <!-- CLASS Binding -->
+            <!-- <div 
+              v-for="variant in variants" 
+              :key="variant.id" 
+              @mouseover="updateImage(variant.image)"
+              class="color-circle"
+              :style="{ backgroundColor: variant.color }">
+              <span class="variant-name">{{ variant.color }}</span>
+            </div> -->
+
+            <!-- color circles -->
+            <!-- CLASS & STYLE BINDING , COMPUTED Properties -->
+            <div 
+              v-for="(variant, index) in variants" 
+              :key="variant.id" 
+              @mouseover="updateVariant(index)"
+              class="color-circle"
+              :style="{ backgroundColor: variant.color }">
+              <span class="variant-name">{{ variant.color }}</span>
             </div>
 
+
+            <!-- buttons add/substract -->
             <!-- EVENT Handling -->
-            <button class="button" @click="addToCart">Add to cart</button>
+            <button 
+              class="button" 
+              :class="{ disabledButton: !inStock }"
+              :disabled="!inStock"
+              @click="addToCart">Add to cart</button>
             <!-- SHORTHAND: v-on:click="addToCart" -->
             <button class="button" @click="substarctFromCart" style="margin-left: 5px">- from cart</button>
           </div>
