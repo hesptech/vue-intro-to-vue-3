@@ -1,4 +1,10 @@
 app.component('product-display', {
+    props: {
+        premium: {
+            type: Boolean,
+            required: true
+        }
+    },
     template:
     /*html*/
     `<div class="product-display">
@@ -19,6 +25,7 @@ app.component('product-display', {
             <h1>{{ title }}</h1>
             <h5>{{ brand + ' ' + product }}</h5>
             
+            <p>Shipping: {{shipping}}</p>
             
             <!-- description stock -->
             <!-- CONDITIONAL Rendering -->
@@ -33,11 +40,8 @@ app.component('product-display', {
 
             <!-- description details -->
             <!-- LIST Rendering -->
-            <div class="">
-            <ul>
-                <li v-for="detail in details">{{ detail }}</li>
-            </ul>
-            </div>
+            <!-- COMPONENTS & PROPS -->
+            <product-details :details="details"></product-details>
 
 
             <!-- EVENT Binding -->
@@ -69,9 +73,9 @@ app.component('product-display', {
             class="button" 
             :class="{ disabledButton: !inStock }"
             :disabled="!inStock"
-            @click="addToCart">Add to cart</button>
+            @click="addToCart(1)">Add to cart</button>
             <!-- SHORTHAND: v-on:click="addToCart" -->
-            <button class="button" @click="substarctFromCart" style="margin-left: 5px">- from cart</button>
+            <button class="button" @click="addToCart(-(1))" style="margin-left: 5px">- from cart</button>
         </div>
         </div>
     </div>`,
@@ -93,8 +97,12 @@ app.component('product-display', {
         }
     },
     methods: {
-        addToCart() {
-            this.cart += 1
+        addToCart(todo) {
+            if (todo == 1) {
+                this.$emit('add-to-cart', todo)
+            } else {
+                this.$emit('substract-to-cart', todo)
+            }
         },
         updateImage(variantImage) {
             this.image = variantImage
@@ -118,6 +126,12 @@ app.component('product-display', {
         },
         onSaleBadge() {
             return this.onSale
+        },
+        shipping() {
+            if (this.premium) {
+                return 'free'
+            }
+            return 2.99
         }
     }
 })

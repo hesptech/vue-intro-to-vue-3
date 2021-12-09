@@ -13,7 +13,8 @@
       <div class="nav-bar"></div>
 
       <div class="cart">Cart(){{ cart }}</div>
-      <product-display></product-display>
+      <product-display :premium="premium" @add-to-cart="updateCartAdd" @substract-to-cart="updateCartSubstract"></product-display>
+      
 
     </div>
 
@@ -22,6 +23,9 @@
 
     <!-- Import Components -->
     <script src="./components/ProductDisplay.js"></script>
+
+    <!-- Import Components -->
+    <script src="./components/ProductDetails.js"></script>
 
     <!-- Mount App -->
     <script>
